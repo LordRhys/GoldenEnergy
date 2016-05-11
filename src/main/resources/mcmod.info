@@ -1,0 +1,17 @@
+[
+{
+  "modid": "goldenenergy",
+  "name": "Golden Energy",
+  "description": "World of Light Energy",
+  "version": "1.0",
+  "mcversion": "1.7.10",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["LordRhys"],
+  "credits": "The Forge and FML guys, for making this possible",
+  "logoFile": "",
+  "screenshots": [],
+  "parent": "",
+  "dependencies": []
+}
+]
