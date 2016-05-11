@@ -1,5 +1,8 @@
 package com.lordrhys.goldenenergy.handler;
 
+import com.lordrhys.goldenenergy.reference.Reference;
+import cpw.mods.fml.client.event.ConfigChangedEvent;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.common.config.Configuration;
 
 import java.io.File;
@@ -10,37 +13,37 @@ import java.io.File;
 public class ConfigurationHandler
 {
   public static Configuration configuration;
+  public static boolean testValue = false;
+  public static int testValue2 = 29;
 
   public static void init(File configFile)
   {
     // Create the configuration object from the given configuration file
-    Configuration configuration = new Configuration(configFile);
-    boolean configValue = false;
-    int configValue2 = 125;
-
-    try
+    if (configuration == null)
     {
-      // Load the configuration file
-      configuration.load();
+      configuration = new Configuration(configFile);
+    }
+  }
 
-      // Read in properties from configuration file
-      configValue = configuration.getBoolean("configValue", "ForgeCraft", true, "This is an example config value");
-      configValue2 = configuration.getInt("configValue2", "MyCraft", 45, 0, 100, "This is an example config value");
-    }
-    catch (Exception e)
+  @SubscribeEvent
+  public void onConfigurationChangedEvent(ConfigChangedEvent.OnConfigChangedEvent event)
+  {
+    if (event.modID.equalsIgnoreCase(Reference.MODID))
     {
-      // Log the exception
+      loadConfiguration();
     }
-    finally
-    {
-      // Save the configuration file
-      if (configuration.hasChanged())
-      {
-        configuration.save();
-      }
-    }
+  }
 
-    System.out.println("Configuration Test: " + configValue);
-    System.out.println("Configuration Test2: " + configValue2);
+  public void loadConfiguration()
+  {
+    // Read in properties from configuration file
+    testValue = configuration.getBoolean("configValue", Configuration.CATEGORY_GENERAL, false, "This is an example config value");
+    testValue2 = configuration.getInt("configValue2", Configuration.CATEGORY_GENERAL, 14, 0, 100, "This is an example config value");
+
+    // Save the configuration file
+    if (configuration.hasChanged())
+    {
+      configuration.save();
+    }
   }
 }
