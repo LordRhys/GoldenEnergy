@@ -13,15 +13,15 @@ import java.io.File;
 public class ConfigurationHandler
 {
   public static Configuration configuration;
-  public static boolean testValue = false;
-  public static int testValue2 = 29;
+  private static boolean testValue = false;
 
   public static void init(File configFile)
   {
     // Create the configuration object from the given configuration file
     if (configuration == null)
     {
-      configuration = new Configuration(configFile);
+      configuration = new Configuration(configFile, true);
+      loadConfiguration();
     }
   }
 
@@ -34,11 +34,10 @@ public class ConfigurationHandler
     }
   }
 
-  public void loadConfiguration()
+  private static void loadConfiguration()
   {
     // Read in properties from configuration file
-    testValue = configuration.getBoolean("configValue", Configuration.CATEGORY_GENERAL, false, "This is an example config value");
-    testValue2 = configuration.getInt("configValue2", Configuration.CATEGORY_GENERAL, 14, 0, 100, "This is an example config value");
+    testValue = configuration.getBoolean("configValue", "mycraft", false, "This is an example config value");
 
     // Save the configuration file
     if (configuration.hasChanged())
